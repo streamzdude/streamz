@@ -8,6 +8,7 @@ function Stream(stream) {
 }
 
 function Window(stream) {
+	var self = this;
 	stream.window(this);
 	this.stream = stream;
 	this.color = ko.observable('#777');
@@ -18,11 +19,25 @@ function Window(stream) {
 	this.height = ko.observable(stream.height || 345);
 	this.zIndex = ko.observable(0);	
 	this.showOverlay = ko.observable(false);
+
+	this.save = function() {
+		return {
+			streamName: self.stream.name,
+			left: self.left(),
+			top: self.top(),
+			width: self.width(),
+			height: self.height(),
+			zIndex: self.zIndex()
+		};
+	}
+
+	this.load = function(data) {
+		self.left(data.left).top(data.top).width(data.width).height(data.height).zIndex(data.zIndex);
+	}
 }
 
-function StreamzVM(staticStreams, userData) {
+function StreamzVM(staticStreams) {
 	var self = this;
-	userData = userData || {};
 	
 	this.windows = ko.observableArray();
 	this.streams = staticStreams.map(function(stream) { return new Stream(stream) });
@@ -54,16 +69,41 @@ function StreamzVM(staticStreams, userData) {
 			self.bringToFront(window);
 			self.windows.push(window);
 			stream.window(window);
+			self.save();
 		}
 	}
 
 	this.closeWindow = function(window) {
 		window.stream.window(null);
 		self.windows.remove(window);
+		self.save();
 	}
 
 	this.toggleCustomize = function() {
 		self.isCustomizing(!self.isCustomizing());
+	}
+
+	this.save = function() {
+		var data = {
+			windows: self.windows().map(function(window) { return window.save() }),
+			ver: 1
+		};
+
+		localStorage["streamzData"] = JSON.stringify(data);
+	}
+
+	this.load = function(data) 
+	{
+		self.streams.forEach(function(stream) { stream.window(null) });
+
+		var windows = data.windows.map(function(windowData) {
+			var stream = self.streams.filter(function(stream) { return stream.name === windowData.streamName })[0];
+			var window = new Window(stream);
+			window.load(windowData);
+			return window;
+		}).filter(function(window) { return !!window });
+
+		self.windows(windows);
 	}
 }
 
@@ -113,16 +153,27 @@ ko.bindingHandlers.window = {
 
 		elem.on('mousedown', function() {
 			vm.bringToFront(window);
+			bindingContext.$root.save();
 		});
 
 		elem.draggable({
 			cancel: 'object',
 			start: function() {	window.showOverlay(true) },
-			stop: function() { window.showOverlay(false) }			
+			stop: function() { 
+				window.showOverlay(false);
+				var pos = elem.position();
+				window.left(pos.left).top(pos.top);
+				bindingContext.$root.save();
+			}
 		}).resizable({
 			handles: 'all',
 			start: function() {	window.showOverlay(true) },
-			stop: function() { window.showOverlay(false) }			
+			stop: function() { 
+				window.showOverlay(false);
+				var pos = elem.position();
+				window.left(pos.left).top(pos.top).width(elem.width()).height(elem.height());
+				bindingContext.$root.save();
+			}			
 		});
 
 		switch (stream.type) {
@@ -259,5 +310,10 @@ var colors = ['#DE8D47', '#A92F41', '#E5DFC5', '#B48375', '#91C7A9', '#607625', 
 // https://github.com/k3oni/plugin.video.world.news.live/blob/master/channels.py
 
 
-var vm = window.v = new StreamzVM(staticStreams, localStorage["streamzData"]);
+var vm = window.v = new StreamzVM(staticStreams);
+
+var userData = localStorage["streamzData"];
+if (userData)
+	vm.load(JSON.parse(userData));
+
 ko.applyBindings(vm);

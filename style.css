@@ -36,10 +36,8 @@ nav a.streamLink {
 	text-align: center;
 	display: inline-block;
 	margin: 0 4px;
-	--min-width: 60px;
 	border-radius: 3px;
 	padding: 2px 10px;
-	--height: 20px;
 }
 
 nav a.streamLink.active {
@@ -128,7 +126,7 @@ nav a.customizeLink.streamLink.active {
 	border-radius: 5px;
 	background-color: #777;
 	z-index: 1000;
-	padding: 0 5px;
+	padding: 0 7px;
 }
 
 .customizeWindow .title {
