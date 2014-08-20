@@ -11,21 +11,16 @@ body {
 }
 
 header {
-	height: 26px;
 	background: #484848;
 	box-shadow: 0px 1px 3px black;
 }
 
 main {
-	position: absolute;
-	top: 26px;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	height: 100%;
 }
 
 nav {
-	padding: 3px;
+	padding: 0px 3px;
 	font-size: 0.9em;
 }
 
@@ -35,7 +30,7 @@ nav a.streamLink {
 	text-decoration: none;
 	text-align: center;
 	display: inline-block;
-	margin: 0 4px;
+	margin: 3px 4px;
 	border-radius: 3px;
 	padding: 2px 10px;
 }
