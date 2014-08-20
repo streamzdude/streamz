@@ -81,20 +81,31 @@ function StreamzVM(staticStreams) {
 
 	this.toggleCustomize = function() {
 		self.isCustomizing(!self.isCustomizing());
+		if (!self.isCustomizing())
+			self.save();
 	}
 
 	this.save = function() {
+		var windows = self.windows().map(function(window) { return window.save() });
+		var hiddenStreams = self.streams
+				.filter(function(stream) { return !stream.visible() })
+				.map(function(stream) { return stream.name });
+
 		var data = {
-			windows: self.windows().map(function(window) { return window.save() }),
-			ver: 1
+			windows: windows,
+			hiddenStreams: hiddenStreams
 		};
 
 		localStorage["streamzData"] = JSON.stringify(data);
 	}
 
-	this.load = function(data) 
+	this.load = function(data)
 	{
-		self.streams.forEach(function(stream) { stream.window(null) });
+		self.streams.forEach(function(stream) { 
+			stream.window(null);
+			if (data.hiddenStreams)
+				stream.visible(!~data.hiddenStreams.indexOf(stream.name));
+		});
 
 		var windows = data.windows.map(function(windowData) {
 			var stream = self.streams.filter(function(stream) { return stream.name === windowData.streamName })[0];
