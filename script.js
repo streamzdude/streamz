@@ -118,7 +118,7 @@ function winJwplayer(elem, stream)
 	jwplayer(player[0]).setup({
 	    file: stream.src,
 	    title: stream.name || 'Untitled',
-	    image: 'bomb.jpg',
+	    image: stream.image === false ? undefined : 'bomb.jpg',
 	    width: '100%',
 	    aspectratio: '16:9',
 	    rtmp: {
@@ -218,6 +218,8 @@ var staticStreams = [
 		name: 'Reuters',
 		type: 'jwplayer',
 		src: 'http://37.58.85.156/rlo001/ngrp:rlo001.stream_all/playlist.m3u8',
+		image: false,
+		//src: 'http://live.reuters.miisolutions.net/rlo247/ngrp:rlo001.stream_all/24578/playlist.m3u8',
 		bufferlength: 40
 	},
 	{
