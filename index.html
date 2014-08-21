@@ -21,7 +21,10 @@
 <main>
 	<!-- ko foreach: windows -->
 		<div class="window" data-bind="style: {'background-color': color}, window: $data">
-			<div class="title" data-bind="text: stream.name"></div>
+			<div class="title">
+				<span data-bind="text: stream.name"></span>
+				<a href="#" data-bind="visible: $root.showReload, click: $root.reloadWindow" class="ui-icon ui-icon-arrowrefresh-1-e reloadBtn" title="Reload"></a>
+			</div>			
 			<a href="#" data-bind="click: $root.closeWindow" class="ui-icon ui-icon-close closeBtn" title="Close"></a>
 			<div class="player"></div>
 			<div class="overlay" data-bind="visible: showOverlay"></div>
@@ -39,6 +42,13 @@
 					<a href="#" data-bind="click: $root.editStream">Edit</a>
 				</div>
 			<!-- /ko -->
+			
+			<hr />
+
+			<div>
+				<input type="checkbox" data-bind="checked: showReload" id="showReloadBtn" />
+				<label for="showReloadBtn">Show reload buttons</label>
+			</div>
 		</div>
 	</div>
 </main>

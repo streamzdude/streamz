@@ -47,6 +47,7 @@ function StreamzVM(staticStreams) {
 	});
 
 	this.isCustomizing = ko.observable(false);
+	this.showReload = ko.observable(true);
 
 	this.bringToFront = function(window) {
 		var zIndexes = self.windows().map(function(win) { return win.zIndex() });
@@ -79,6 +80,11 @@ function StreamzVM(staticStreams) {
 		self.save();
 	}
 
+	this.reloadWindow = function(window) {
+		self.windows.remove(window);
+		self.windows.push(window);
+	}
+
 	this.toggleCustomize = function() {
 		self.isCustomizing(!self.isCustomizing());
 		if (!self.isCustomizing())
@@ -92,8 +98,10 @@ function StreamzVM(staticStreams) {
 				.map(function(stream) { return stream.name });
 
 		var data = {
+			ver: 1,
 			windows: windows,
-			hiddenStreams: hiddenStreams
+			hiddenStreams: hiddenStreams,
+			showReload: self.showReload()
 		};
 
 		localStorage["streamzData"] = JSON.stringify(data);
@@ -115,6 +123,9 @@ function StreamzVM(staticStreams) {
 		}).filter(function(window) { return !!window });
 
 		self.windows(windows);
+
+		if (typeof data.showReload !== "undefined")
+			self.showReload(data.showReload);
 	}
 }
 
@@ -267,6 +278,12 @@ var staticStreams = [
 		src: 'http://www.ilive.to/embedplayer.php?width=640&height=480&channel=68419&autoplay=true'
 	},*/
 	{
+		name: 'BBC',
+		type: 'jwplayer',
+		src: 'http://wpc.c1a9.edgecastcdn.net/hls-live/20C1A9/bbc_world/ls_satlink/b_828.m3u8',
+		bufferlength: 6
+	},
+	{
 		name: 'Aljazeera',
 		type: 'html',
 		src: '<object seamlesstabbing="undefined" class="BrightcoveExperience" id="myExperience1474541474001" data="http://c.brightcove.com/services/viewer/federated_f9?&amp;width=680&amp;height=380&amp;flashID=myExperience1474541474001&amp;bgcolor=%23FFFFFF&amp;playerID=834025853001&amp;playerKey=AQ~~%2CAAAAmtUu4Zk~%2CoARQlkfrZncis5e3VirW1_jMMBOC_SsO&amp;isVid=true&amp;isUI=true&amp;dynamicStreaming=true&amp;%40videoPlayer=1474541474001&amp;autoStart=true&amp;debuggerID=&amp;startTime=1405645205983" type="application/x-shockwave-flash" height="100%" width="100%"><param value="always" name="allowScriptAccess"><param value="true" name="allowFullScreen"><param value="false" name="seamlessTabbing"><param value="true" name="swliveconnect"><param value="window" name="wmode"><param value="high" name="quality"><param value="#000000" name="bgcolor"></object>'
@@ -276,6 +293,12 @@ var staticStreams = [
 		name: 'i24news',
 		type: 'html',
 		src: '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://c.brightcove.com/services/viewer/federated_f9?&amp;width=470&amp;height=350&amp;flashID=myExperience2552000984001&amp;bgcolor=%23000000&amp;playerID=2551661482001&amp;playerKey=AQ~~%2CAAACL1AyZ1k~%2ChYvoCrzvEtsjnBzkMXyn0g7qGNI0eDJy&amp;isVid=true&amp;isUI=true&amp;autoStart=true&amp;htmlFallback=true&amp;dynamicStreaming=true&amp;%40videoPlayer=2552000984001&amp;includeAPI=true&amp;templateLoadHandler=onTemplateLoad&amp;templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience2552000984001%22%5D&amp;debuggerID=&amp;originalTemplateReadyHandler=onTemplateReady&amp;startTime=1396304197501" id="myExperience2552000984001" class="BrightcoveExperience" seamlesstabbing="undefined"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="seamlessTabbing" value="false"><param name="swliveconnect" value="true"><param name="wmode" value="window"><param name="quality" value="high"><param name="bgcolor" value="#000000"></object>'
+	},
+	{
+		name: 'Press TV',
+		type: 'jwplayer',
+		src: 'http://ptv-hls.streaming.overon.es/channel03/livehigh.m3u8',
+		bufferlength: 10
 	},
 	{
 		name: 'CBS',
