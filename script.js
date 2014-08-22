@@ -50,10 +50,10 @@ function StreamzVM(staticStreams) {
 	this.showReload = ko.observable(true);
 
 	this.bringToFront = function(window) {
-		var zIndexes = self.windows().map(function(win) { return win.zIndex() });
-		var zIndex = Math.max.apply(null, zIndexes.concat([10]));
-		if (window.zIndex() < zIndex)
-			window.zIndex(1 + zIndex);
+		var sortedWindows = self.windows().slice().sort(function(a,b) { return a.zIndex() - b.zIndex() });
+		sortedWindows.splice(sortedWindows.indexOf(window), 1);
+		sortedWindows.push(window);
+		sortedWindows.forEach(function(win, i) { win.zIndex(10 + i) });
 	};
 
 	this.editStream = function(stream) {
