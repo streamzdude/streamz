@@ -1,4 +1,4 @@
-
+var ver = 1;
 var startLeft = 50, startTop = 50;
 
 function Stream(stream) {
@@ -98,7 +98,7 @@ function StreamzVM(staticStreams) {
 				.map(function(stream) { return stream.name });
 
 		var data = {
-			ver: 1,
+			ver: ver,
 			windows: windows,
 			hiddenStreams: hiddenStreams,
 			showReload: self.showReload()
@@ -225,10 +225,10 @@ ko.bindingHandlers.window = {
 
 var staticStreams = [
 	{		
-		name: 'RT2',
+		name: 'RT',
 		type: 'jwplayer',
 		src: 'rtmp://fml.3443.edgecastcdn.net/203443/en-stream',		
-		bufferlength: 40
+		bufferlength: 20
 	},
 	{
 		name: 'Walla',
@@ -242,22 +242,22 @@ var staticStreams = [
 		src: 'http://37.58.85.156/rlo001/ngrp:rlo001.stream_all/playlist.m3u8',
 		image: false,
 		//src: 'http://live.reuters.miisolutions.net/rlo247/ngrp:rlo001.stream_all/24578/playlist.m3u8',
-		bufferlength: 40
+		bufferlength: 20
 	},
 	{
-		name: 'Channel 2',
+		name: 'Ch 2',
 		type: 'iframe',
 		src: 'http://www.ustream.tv/embed/18458172?v=3&wmode=direct'
 	},
 	{
-		name: 'Channel 10',
+		name: 'Ch 10',
 //		type: 'iframe',
 //		src: 'http://10tv.nana10.co.il/Video/?VideoID=170771&TypeID=0&pid=48&sid=169&ShowBanner=1&VideoPosition=1&CategoryID=600079'
 		type: 'html',
 		src: '<object class="CTPlayer" type="application/x-shockwave-flash" data="http://hlslive.ch10.cloudvideoplatform.com/CTMLivePlayer.swf?0.9139183044899255" width="100%" height="100%" title="Ch10"><param name="quality" value="high"> <param name="bgcolor" value="#000000"><param name="allowScriptAccess" value="always"> <param name="wmode" value="direct"><param name="allowFullScreen" value="true"><param name="flashvars" value="AutoPlay=true&amp;dfpadunit=CDN_10TV&amp;PathToPlayer=http://hlslive.ch10.cloudvideoplatform.com/"></object>'
 	},
 	{
-		name: 'CNN Intl.',
+		name: 'CNN',
 		type: 'jwplayer',
 		src: 'http://rm-edge-1.cdn2.streamago.tv:1935/streamagoedge/34960/28965/playlist.m3u8'
 //		type: 'iframe',
@@ -270,7 +270,8 @@ var staticStreams = [
 		type: 'iframe',
 		src: 'http://2ndrun.tv/CNN_Test.php?width=600&amp;height=370',
 		width: 606,
-		height: 378
+		height: 378,
+		visible: false
 	},
 	/*{
 		name: 'CNN USA 2',
@@ -281,7 +282,8 @@ var staticStreams = [
 		name: 'BBC',
 		type: 'jwplayer',
 		src: 'http://wpc.c1a9.edgecastcdn.net/hls-live/20C1A9/bbc_world/ls_satlink/b_828.m3u8',
-		bufferlength: 6
+		bufferlength: 6,
+		visible: false
 	},
 	{
 		name: 'Aljazeera',
@@ -295,7 +297,7 @@ var staticStreams = [
 		src: '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://c.brightcove.com/services/viewer/federated_f9?&amp;width=470&amp;height=350&amp;flashID=myExperience2552000984001&amp;bgcolor=%23000000&amp;playerID=2551661482001&amp;playerKey=AQ~~%2CAAACL1AyZ1k~%2ChYvoCrzvEtsjnBzkMXyn0g7qGNI0eDJy&amp;isVid=true&amp;isUI=true&amp;autoStart=true&amp;htmlFallback=true&amp;dynamicStreaming=true&amp;%40videoPlayer=2552000984001&amp;includeAPI=true&amp;templateLoadHandler=onTemplateLoad&amp;templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience2552000984001%22%5D&amp;debuggerID=&amp;originalTemplateReadyHandler=onTemplateReady&amp;startTime=1396304197501" id="myExperience2552000984001" class="BrightcoveExperience" seamlesstabbing="undefined"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="seamlessTabbing" value="false"><param name="swliveconnect" value="true"><param name="wmode" value="window"><param name="quality" value="high"><param name="bgcolor" value="#000000"></object>'
 	},
 	{
-		name: 'Press TV',
+		name: 'PressTV',
 		type: 'jwplayer',
 		src: 'http://ptv-hls.streaming.overon.es/channel03/livehigh.m3u8',
 		bufferlength: 10
@@ -315,12 +317,14 @@ var staticStreams = [
 		name: 'TV2',
 		type: 'jwplayer',
 		src: 'http://hls.akamai.tv2.no/wzlive/_definst_/amlst:WS26/831749.smil/manifest.m3u8',
-		bufferlength: 10
+		bufferlength: 10,
+		visible: false
 	},
 	{
 		name: 'AA',
 		type: 'iframe',
-		src: 'http://static.str.noccdn.net/tvkur.com/aa/live1.html'
+		src: 'http://static.str.noccdn.net/tvkur.com/aa/live1.html',
+		visible: false
 	},
 	{
 		name: 'Telegraph',
@@ -349,7 +353,12 @@ var colors = ['#DE8D47', '#A92F41', '#E5DFC5', '#B48375', '#91C7A9', '#607625', 
 var vm = window.v = new StreamzVM(staticStreams);
 
 var userData = localStorage["streamzData"];
-if (userData)
-	vm.load(JSON.parse(userData));
+if (userData) {
+	userData = JSON.parse(userData);
+	if (userData.ver === ver)
+		vm.load(userData);
+	else
+		localStorage.removeItem("streamzData");
+}
 
 ko.applyBindings(vm);
