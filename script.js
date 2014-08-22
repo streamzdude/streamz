@@ -40,10 +40,10 @@ function StreamzVM(staticStreams) {
 	var self = this;
 	
 	this.windows = ko.observableArray();
-	this.streams = staticStreams.map(function(stream) { return new Stream(stream) });
+	this.streams = ko.observableArray( staticStreams.map(function(stream) { return new Stream(stream) }) );
 
 	this.visibleStreams = ko.computed(function() {
-		return self.streams.filter(function(stream) { return stream.visible() });
+		return self.streams().filter(function(stream) { return stream.visible() });
 	});
 
 	this.isCustomizing = ko.observable(false);
@@ -93,7 +93,7 @@ function StreamzVM(staticStreams) {
 
 	this.save = function() {
 		var windows = self.windows().map(function(window) { return window.save() });
-		var hiddenStreams = self.streams
+		var hiddenStreams = self.streams()
 				.filter(function(stream) { return !stream.visible() })
 				.map(function(stream) { return stream.name });
 
@@ -109,14 +109,14 @@ function StreamzVM(staticStreams) {
 
 	this.load = function(data)
 	{
-		self.streams.forEach(function(stream) { 
+		self.streams().forEach(function(stream) { 
 			stream.window(null);
 			if (data.hiddenStreams)
 				stream.visible(!~data.hiddenStreams.indexOf(stream.name));
 		});
 
 		var windows = data.windows.map(function(windowData) {
-			var stream = self.streams.filter(function(stream) { return stream.name === windowData.streamName })[0];
+			var stream = self.streams().filter(function(stream) { return stream.name === windowData.streamName })[0];
 			var window = new Window(stream);
 			window.load(windowData);
 			return window;
@@ -140,7 +140,7 @@ function winJwplayer(elem, stream)
 	jwplayer(player[0]).setup({
 	    file: stream.src,
 	    title: stream.name || 'Untitled',
-	    image: stream.image === false ? undefined : 'bomb.jpg',
+	    image: stream.image === false ? undefined : 'bomb.png',
 	    width: '100%',
 	    aspectratio: '16:9',
 	    rtmp: {
@@ -223,7 +223,7 @@ ko.bindingHandlers.window = {
 }
 
 
-var staticStreams = [
+var streams = [
 	{		
 		name: 'RT',
 		type: 'jwplayer',
@@ -350,7 +350,7 @@ var colors = ['#DE8D47', '#A92F41', '#E5DFC5', '#B48375', '#91C7A9', '#607625', 
 // https://github.com/k3oni/plugin.video.world.news.live/blob/master/channels.py
 
 
-var vm = window.v = new StreamzVM(staticStreams);
+var vm = window.v = new StreamzVM(streams);
 
 var userData = localStorage["streamzData"];
 if (userData) {
