@@ -51,7 +51,8 @@ function StreamzVM(staticStreams) {
 
 	this.bringToFront = function(window) {
 		var sortedWindows = self.windows().slice().sort(function(a,b) { return a.zIndex() - b.zIndex() });
-		sortedWindows.splice(sortedWindows.indexOf(window), 1);
+		if (~sortedWindows.indexOf(window))
+			sortedWindows.splice(sortedWindows.indexOf(window), 1);
 		sortedWindows.push(window);
 		sortedWindows.forEach(function(win, i) { win.zIndex(10 + i) });
 	};
