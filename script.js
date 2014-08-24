@@ -18,7 +18,6 @@ function Window(stream) {
 	this.width = ko.observable(stream.width || 600);
 	this.height = ko.observable(stream.height || 345);
 	this.zIndex = ko.observable(0);	
-	this.showOverlay = ko.observable(false);
 
 	this.save = function() {
 		return {
@@ -46,6 +45,7 @@ function StreamzVM(staticStreams) {
 		return self.streams().filter(function(stream) { return stream.visible() });
 	});
 
+	this.showOverlay = ko.observable(false);
 	this.isCustomizing = ko.observable(false);
 	this.showReload = ko.observable(true);
 
@@ -181,21 +181,21 @@ ko.bindingHandlers.window = {
 
 		elem.draggable({
 			cancel: 'object',
-			start: function() {	window.showOverlay(true) },
+			start: function() {	vm.showOverlay(true) },
 			stop: function() { 
-				window.showOverlay(false);
+				vm.showOverlay(false);
 				var pos = elem.position();
 				window.left(pos.left).top(pos.top);
-				bindingContext.$root.save();
+				vm.save();
 			}
 		}).resizable({
 			handles: 'all',
-			start: function() {	window.showOverlay(true) },
+			start: function() {	vm.showOverlay(true) },
 			stop: function() { 
-				window.showOverlay(false);
+				window.vm(false);
 				var pos = elem.position();
 				window.left(pos.left).top(pos.top).width(elem.width()).height(elem.height());
-				bindingContext.$root.save();
+				vm.save();
 			}			
 		});
 
@@ -225,17 +225,16 @@ ko.bindingHandlers.window = {
 
 
 var streams = [
+	{
+		name: 'Telegraph',
+		type: 'iframe',
+		src: 'http://player.ooyala.com/iframe.html#ec=42Njdmazp8OPIKJRyChESz2RevNqe2aQ&pbid=ZTIxYmJjZDM2NWYzZDViZGRiOWJjYzc5&docUrl=http://streamzdude.github.io/streamz/'
+	},
 	{		
 		name: 'RT',
 		type: 'jwplayer',
 		src: 'rtmp://fml.3443.edgecastcdn.net/203443/en-stream',		
 		bufferlength: 20
-	},
-	{
-		name: 'Walla',
-		type: 'jwplayer',
-		src: 'rtmp://waflalive.walla.co.il/livestreamcast_edge?tuid=23688935517444&un=&ait=129&wkeys=2689&divname=.videochannel&provider=WallaNewsDesk&location=walla.news.&channel_name=news/news',
-		bufferlength: 7
 	},
 	{
 		name: 'Reuters',
@@ -244,6 +243,12 @@ var streams = [
 		image: false,
 		//src: 'http://live.reuters.miisolutions.net/rlo247/ngrp:rlo001.stream_all/24578/playlist.m3u8',
 		bufferlength: 20
+	},
+	{
+		name: 'Walla',
+		type: 'jwplayer',
+		src: 'rtmp://waflalive.walla.co.il/livestreamcast_edge?tuid=23688935517444&un=&ait=129&wkeys=2689&divname=.videochannel&provider=WallaNewsDesk&location=walla.news.&channel_name=news/news',
+		bufferlength: 7
 	},
 	{
 		name: 'Ch 2',
@@ -334,11 +339,6 @@ var streams = [
 		type: 'iframe',
 		src: 'http://static.str.noccdn.net/tvkur.com/aa/live1.html',
 		visible: false
-	},
-	{
-		name: 'Telegraph',
-		type: 'iframe',
-		src: 'http://player.ooyala.com/iframe.html#ec=42Njdmazp8OPIKJRyChESz2RevNqe2aQ&pbid=ZTIxYmJjZDM2NWYzZDViZGRiOWJjYzc5&docUrl=http://streamzdude.github.io/streamz/'
 	},
 	{
 		name: 'Jehad',
