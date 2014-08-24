@@ -11,7 +11,6 @@ function Window(stream) {
 	var self = this;
 	stream.window(this);
 	this.stream = stream;
-	this.color = ko.observable('#777');
 	this.left = ko.observable(startLeft);
 	this.top = ko.observable(startTop);
 	startLeft = (startLeft + 50) % 400; startTop = (startTop + 50) % 400;

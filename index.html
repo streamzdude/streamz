@@ -20,7 +20,7 @@
 
 <main>
 	<!-- ko foreach: windows -->
-		<div class="window" data-bind="style: {'background-color': color}, window: $data">
+		<div class="window" data-bind="window: $data">
 			<div class="title">
 				<span data-bind="text: stream.name"></span>
 				<a href="#" data-bind="visible: $root.showReload, click: $root.reloadWindow" class="ui-icon ui-icon-arrowrefresh-1-e reloadBtn" title="Reload"></a>
