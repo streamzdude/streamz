@@ -91,6 +91,10 @@ function StreamzVM(staticStreams) {
 			self.save();
 	}
 
+	this.findStream = function(name) {
+		return self.streams().filter(function(stream) { return stream.name === name })[0];
+	}
+
 	this.save = function() {
 		var windows = self.windows().map(function(window) { return window.save() });
 		var hiddenStreams = self.streams()
@@ -105,18 +109,25 @@ function StreamzVM(staticStreams) {
 		};
 
 		localStorage["streamzData"] = JSON.stringify(data);
-	}
+	}	
 
 	this.load = function(data)
 	{
 		self.streams().forEach(function(stream) { 
 			stream.window(null);
-			if (data.hiddenStreams)
-				stream.visible(!~data.hiddenStreams.indexOf(stream.name));
 		});
 
+		if (data.hiddenStreams) {
+			data.hiddenStreams.forEach(function(streamName) {
+				var stream = self.findStream(streamName)
+				if (stream)
+					stream.visible(false);
+			});
+		}
+
 		var windows = data.windows.map(function(windowData) {
-			var stream = self.streams().filter(function(stream) { return stream.name === windowData.streamName })[0];
+			var stream = self.findStream(windowData.streamName);
+			if (!stream) return;
 			var window = new Window(stream);
 			window.load(windowData);
 			return window;
@@ -145,7 +156,7 @@ function winJwplayer(elem, stream)
 	    aspectratio: '16:9',
 	    rtmp: {
 	    	subscribe: true,
-	    	bufferlength: stream.bufferlength || 60
+	    	bufferlength: stream.bufferlength || 10
 	    }
 	});
 }
@@ -175,7 +186,7 @@ ko.bindingHandlers.window = {
 
 		elem.on('mousedown', function() {
 			vm.bringToFront(window);
-			bindingContext.$root.save();
+			vm.save();
 		});
 
 		elem.draggable({
@@ -187,7 +198,9 @@ ko.bindingHandlers.window = {
 				window.left(pos.left).top(pos.top);
 				vm.save();
 			}
-		}).resizable({
+		});
+
+		elem.resizable({
 			handles: 'all',
 			start: function() {	vm.showOverlay(true) },
 			stop: function() { 
@@ -314,6 +327,19 @@ var streams = [
 		type: 'jwplayer',
 		src: 'http://ptv-hls.streaming.overon.es/channel03/livehigh.m3u8',
 		bufferlength: 10
+	},
+	{
+		name: 'RT News',
+		type: 'jwplayer',
+		src: 'http://odna.octoshape.net/f3f5m2v4/cds/smil:ch1_auto.smil/playlist.m3u8',
+		bufferlength: 8,
+		visible: false
+	},
+	{
+		name: 'Ukraine Today',
+		type: 'iframe',
+		src: 'http://www.youtube.com/embed/MeKNjoegIZ4?rel=0',
+		visible: false
 	},
 	{
 		name: 'CBS',
