@@ -191,7 +191,7 @@ ko.bindingHandlers.window = {
 			handles: 'all',
 			start: function() {	vm.showOverlay(true) },
 			stop: function() { 
-				window.vm(false);
+				vm.showOverlay(false);
 				var pos = elem.position();
 				window.left(pos.left).top(pos.top).width(elem.width()).height(elem.height());
 				vm.save();
