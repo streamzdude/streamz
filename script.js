@@ -276,12 +276,14 @@ var streams = [
 	},
 	{
 		name: 'CNN',
-		type: 'jwplayer',
-		src: 'http://rm-edge-1.cdn2.streamago.tv:1935/streamagoedge/34960/28965/playlist.m3u8'
+		type: 'html',
+		src: '<object type="application/x-shockwave-flash" height="100%" width="100%" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback_101.swf"><param name="data" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback_101.swf"><param name="flashvars" value="src=http://wpc.C1A9.edgecastcdn.net/hds-live/20C1A9/cnn/ls_satlink/b_828.f4m&#038;streamType=live&#038;autoPlay=true&#038;controlBarAutoHide=true"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><param name="src" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback_101.swf"><param name="allowfullscreen" value="true"></object>',
+//		type: 'jwplayer',
+//		src: 'http://rm-edge-1.cdn2.streamago.tv:1935/streamagoedge/34960/28965/playlist.m3u8'
 //		type: 'iframe',
 //		src: 'http://www.ucaster.eu/embedded/nbvcf5433/1/600/400',
-//		width: 606,
-//		height: 418
+		width: 606,
+		height: 418
 	},
 	{
 		name: 'CNN USA',
@@ -371,6 +373,18 @@ var streams = [
 		type: 'iframe',
 		src: 'http://www.ustream.tv/embed/12632661?v=3&amp;wmode=direct'
 	},
+	{
+		name:'Occupiedair',
+		type:'iframe',
+		src:'http://www.ustream.tv/embed/10016873?v=3&amp;wmode=direct',
+		visible: false
+	},
+	{
+		name:'Cats',
+		type:'iframe',
+		src:'http://www.ustream.tv/embed/2298576?v=3&amp;wmode=direct',
+		visible: false
+	},	
 	{
 		name: 'Chat',
 		type: 'html',
