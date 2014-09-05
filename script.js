@@ -290,8 +290,7 @@ var streams = [
 		type: 'iframe',
 		src: 'http://2ndrun.tv/CNN_Test.php?width=600&amp;height=370',
 		width: 606,
-		height: 378,
-		visible: false
+		height: 378
 	},
 	/*{
 		name: 'CNN USA 2',
@@ -302,8 +301,7 @@ var streams = [
 		name: 'BBC',
 		type: 'jwplayer',
 		src: 'http://wpc.c1a9.edgecastcdn.net/hls-live/20C1A9/bbc_world/ls_satlink/b_828.m3u8',
-		bufferlength: 6,
-		visible: false
+		bufferlength: 6
 	},
 	{
 		name: 'Aljazeera',
@@ -316,20 +314,22 @@ var streams = [
 		type: 'jwplayer',
 		src: 'http://live.aqsatv.atyaf.co:1935/aqsatv/live/tv/playlist.m3u8',
 		bufferlength: 60,
-		visible: true
+		visible: false
 //		type: 'html',
 //		src: '<object width="100%" height="100%" id="player_api" name="player_api" data="http://aqsatv.ps/live/swf/flowplayer-3.2.18.swf" type="application/x-shockwave-flash"><param name="allowfullscreen" value="true"><param name="allowscriptaccess" value="always"><param name="quality" value="high"><param name="bgcolor" value="#000000"><param name="flashvars" value="config={&quot;plugins&quot;:{&quot;f4m&quot;:{&quot;url&quot;:&quot;http://aqsatv.ps/live/swf/flowplayer.f4m-3.2.10.swf&quot;,&quot;dvrBufferTime&quot;:12,&quot;liveBufferTime&quot;:12},&quot;httpstreaming&quot;:{&quot;url&quot;:&quot;http://aqsatv.ps/live/swf/flowplayer.httpstreaming-3.2.11.swf&quot;},&quot;controls&quot;:{&quot;url&quot;:&quot;http://aqsatv.ps/live/swf/flowplayer.controls-3.2.16.swf&quot;,&quot;buttonColor&quot;:&quot;rgba(0, 0, 0, 0.9)&quot;,&quot;buttonOverColor&quot;:&quot;#000000&quot;,&quot;backgroundColor&quot;:&quot;#D7D7D7&quot;,&quot;backgroundGradient&quot;:&quot;medium&quot;,&quot;sliderColor&quot;:&quot;#FFFFFF&quot;,&quot;sliderBorder&quot;:&quot;1px solid #808080&quot;,&quot;volumeSliderColor&quot;:&quot;#FFFFFF&quot;,&quot;volumeBorder&quot;:&quot;1px solid #808080&quot;,&quot;timeColor&quot;:&quot;#000000&quot;,&quot;durationColor&quot;:&quot;#535353&quot;}},&quot;clip&quot;:{&quot;url&quot;:&quot;http://live.aqsatv.atyaf.co:1935/aqsatv/live/tv/manifest.f4m&quot;,&quot;ipadUrl&quot;:&quot;http://live.aqsatv.atyaf.co:1935/aqsatv/live/tv/playlist.m3u8&quot;,&quot;urlResolvers&quot;:[&quot;f4m&quot;],&quot;provider&quot;:&quot;httpstreaming&quot;,&quot;autoPlay&quot;:true,&quot;live&quot;:true},&quot;playerId&quot;:&quot;player&quot;,&quot;playlist&quot;:[{&quot;url&quot;:&quot;http://live.aqsatv.atyaf.co:1935/aqsatv/live/tv/manifest.f4m&quot;,&quot;ipadUrl&quot;:&quot;http://live.aqsatv.atyaf.co:1935/aqsatv/live/tv/playlist.m3u8&quot;,&quot;urlResolvers&quot;:[&quot;f4m&quot;],&quot;provider&quot;:&quot;httpstreaming&quot;,&quot;autoPlay&quot;:true,&quot;live&quot;:true}]}"></object>'
 	},
 	{
 		name: 'i24news',
 		type: 'html',
-		src: '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://c.brightcove.com/services/viewer/federated_f9?&amp;width=470&amp;height=350&amp;flashID=myExperience2552000984001&amp;bgcolor=%23000000&amp;playerID=2551661482001&amp;playerKey=AQ~~%2CAAACL1AyZ1k~%2ChYvoCrzvEtsjnBzkMXyn0g7qGNI0eDJy&amp;isVid=true&amp;isUI=true&amp;autoStart=true&amp;htmlFallback=true&amp;dynamicStreaming=true&amp;%40videoPlayer=2552000984001&amp;includeAPI=true&amp;templateLoadHandler=onTemplateLoad&amp;templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience2552000984001%22%5D&amp;debuggerID=&amp;originalTemplateReadyHandler=onTemplateReady&amp;startTime=1396304197501" id="myExperience2552000984001" class="BrightcoveExperience" seamlesstabbing="undefined"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="seamlessTabbing" value="false"><param name="swliveconnect" value="true"><param name="wmode" value="window"><param name="quality" value="high"><param name="bgcolor" value="#000000"></object>'
+		src: '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://c.brightcove.com/services/viewer/federated_f9?&amp;width=470&amp;height=350&amp;flashID=myExperience2552000984001&amp;bgcolor=%23000000&amp;playerID=2551661482001&amp;playerKey=AQ~~%2CAAACL1AyZ1k~%2ChYvoCrzvEtsjnBzkMXyn0g7qGNI0eDJy&amp;isVid=true&amp;isUI=true&amp;autoStart=true&amp;htmlFallback=true&amp;dynamicStreaming=true&amp;%40videoPlayer=2552000984001&amp;includeAPI=true&amp;templateLoadHandler=onTemplateLoad&amp;templateReadyHandler=brightcove%5B%22templateReadyHandlermyExperience2552000984001%22%5D&amp;debuggerID=&amp;originalTemplateReadyHandler=onTemplateReady&amp;startTime=1396304197501" id="myExperience2552000984001" class="BrightcoveExperience" seamlesstabbing="undefined"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="seamlessTabbing" value="false"><param name="swliveconnect" value="true"><param name="wmode" value="window"><param name="quality" value="high"><param name="bgcolor" value="#000000"></object>',
+		visible: false
 	},
 	{
 		name: 'PressTV',
 		type: 'jwplayer',
 		src: 'http://ptv-hls.streaming.overon.es/channel03/livehigh.m3u8',
-		bufferlength: 10
+		bufferlength: 10,
+		visible: false
 	},
 	{
 		name: 'RT News',
@@ -371,7 +371,8 @@ var streams = [
 	{
 		name: 'Jehad',
 		type: 'iframe',
-		src: 'http://www.ustream.tv/embed/12632661?v=3&amp;wmode=direct'
+		src: 'http://www.ustream.tv/embed/12632661?v=3&amp;wmode=direct',
+		visible: false
 	},
 	{
 		name:'Occupiedair',
@@ -382,8 +383,7 @@ var streams = [
 	{
 		name:'Cats',
 		type:'iframe',
-		src:'http://www.ustream.tv/embed/2298576?v=3&amp;wmode=direct',
-		visible: false
+		src:'http://www.ustream.tv/embed/2298576?v=3&amp;wmode=direct'
 	},	
 	{
 		name: 'Chat',
@@ -393,11 +393,9 @@ var streams = [
 ];
 
 
-
 var colors = ['#DE8D47', '#A92F41', '#E5DFC5', '#B48375', '#91C7A9', '#607625', '#707070', '#FFCC00', '#6600CC'];
 
 // https://github.com/k3oni/plugin.video.world.news.live/blob/master/channels.py
-
 
 var vm = window.v = new StreamzVM(streams);
 
